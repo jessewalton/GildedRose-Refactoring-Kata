@@ -158,37 +158,3 @@ describe("Gilded Rose", function() {
     });
   });
 });
-
-
-/*
-
-other 
-  sellIn -= 1
-  if (quality > 0) quality -= 1
-  if (quality > 0 && sellIn < 0) quality -= 1
-
-aged brie 
-  sellIn -= 1
-  if (quality < 50) quality += 1
-  if (sellIn < 0 && quality < 50) quality += 1
-
-backstage passes
-  sellIn -= 1
-  if (sellIn > 10) quality += 1
-    elif (sellIn <= 10) quality += 2
-    elif (sellIn <= 5) quality += 3
-    elif (sellIn < 0) quality = 0 
-
-sulfuras
-
-boolean logic notes:
-((if it's not 'aged brie' AND it's not 'backstage passes') and quality is positive) and it is not sulfuras -> reduce quality by 1
-if not 'aged brie' or 'backstage passes' and quality is positive 
-(if it is 'aged brie' or 'backstage passes') and quality is less than 50 -> increase quality by 1
-((((if it is 'aged brie' or 'backstage passes') and quality is less than 50) and it is 'backstage passes') and sellIn is less than 11) and quality is less than 50 -> increase quality by 1
-
-(if it is not 'sulfuras') -> reduce sellIn by 1
-((((if sellIn is less than 0) and it is not 'aged brie') and it is not 'backstage passes') and quality is greater than 0) and it is not 'sulfuras' -> reduce quality by 1
-((if sellIn is less than 0) and it is not 'aged brie') and it is 'backstage passes' -> set quality to 0
-((if sellIn is less than 0) and it is 'aged brie') and quality is less than 50 -> increase quality by 1
-*/
