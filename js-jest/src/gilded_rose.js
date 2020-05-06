@@ -72,110 +72,61 @@ class Shop {
   constructor(items=[]){
     this.items = items;
   }
+
   updateQuality() {
-
-    // for each item
     for (let i = 0; i < this.items.length; i++) {
+      let item = this.items[i];
 
-      // if it's not 'aged brie' AND it's not 'backstage passes'
-      if (this.items[i].name != 'Aged Brie' && this.items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
+      if (item.name == "Sulfuras, Hand of Ragnaros") {
+        continue;
+      }
 
-        // (if it's not 'aged brie' AND it's not 'backstage passes') and quality is positive
-        if (this.items[i].quality > 0) {
-
-          // ((if it's not 'aged brie' AND it's not 'backstage passes') and quality is positive) and it is not sulfuras
-          if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') {
-
-            // reduce quality by 1
-            this.items[i].quality = this.items[i].quality - 1;
-          }
+      if (item.name == "Aged Brie") {
+        item.sellIn = item.sellIn - 1;
+        item.quality = item.quality + 1;
+    
+        if (item.sellIn < 0) {
+          item.quality = item.quality + 1;
         }
-      } 
-      // if it is 'aged brie' or 'backstage passes'
-      else {
 
-        // (if it is 'aged brie' or 'backstage passes') and quality is less than 50
-        if (this.items[i].quality < 50) {
-
-          // increase quality by 1
-          this.items[i].quality = this.items[i].quality + 1;
-
-          // ((if it is 'aged brie' or 'backstage passes') and quality is less than 50) and it is 'backstage passes'
-          if (this.items[i].name == 'Backstage passes to a TAFKAL80ETC concert') {
-
-            // (((if it is 'aged brie' or 'backstage passes') and quality is less than 50) and it is 'backstage passes') and sellIn is less than 11
-            if (this.items[i].sellIn < 11) {
-              
-              // ((((if it is 'aged brie' or 'backstage passes') and quality is less than 50) and it is 'backstage passes') and sellIn is less than 11) and quality is less than 50
-              if (this.items[i].quality < 50) {
-
-                // increase quality by 1
-                this.items[i].quality = this.items[i].quality + 1;
-              }
-            }
-
-            // (((if it is 'aged brie' or 'backstage passes') and quality is less than 50) and it is 'backstage passes') and sellIn is less than 6
-            if (this.items[i].sellIn < 6) {
-
-              // ((((if it is 'aged brie' or 'backstage passes') and quality is less than 50) and it is 'backstage passes') and sellIn is less than 6) and quality is less than 50
-              if (this.items[i].quality < 50) {
-
-                // increase quality by 1
-                this.items[i].quality = this.items[i].quality + 1;
-              }
-            }
-          }
+        if (item.quality > 50) {
+          item.quality = 50;
         }
       }
 
-      // if it is not 'sulfuras'
-      if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') {
+      else if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
 
-        // reduce sellIn by 1
-        this.items[i].sellIn = this.items[i].sellIn - 1;
-      }
-
-      // if sellIn is less than 0
-      if (this.items[i].sellIn < 0) {
-
-        // (if sellIn is less than 0) and it is not 'aged brie'
-        if (this.items[i].name != 'Aged Brie') {
-
-          // ((if sellIn is less than 0) and it is not 'aged brie') and it is not 'backstage passes'
-          if (this.items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
-
-            // (((if sellIn is less than 0) and it is not 'aged brie') and it is not 'backstage passes') and quality is greater than 0
-            if (this.items[i].quality > 0) {
-
-              // ((((if sellIn is less than 0) and it is not 'aged brie') and it is not 'backstage passes') and quality is greater than 0) and it is not 'sulfuras'
-              if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') {
-
-                // reduce quality by 1
-                this.items[i].quality = this.items[i].quality - 1;
-              }
-            }
-          } 
-
-          // ((if sellIn is less than 0) and it is not 'aged brie') and it is 'backstage passes'
-          else {
-
-            // set quality to 0
-            this.items[i].quality = this.items[i].quality - this.items[i].quality;
-          }
-        } 
+        item.sellIn = item.sellIn - 1;
+  
+        if (item.sellIn < 0) { 
+          item.quality = 0;
+        } else if (item.sellIn < 5) { 
+          item.quality = item.quality += 3;
+        } else if (item.sellIn < 10) {
+          item.quality = item.quality += 2;
+        } else if (item.sellIn >= 10) {
+          item.quality = item.quality += 1;
+        }
         
-        // (if sellIn is less than 0) and it is 'aged brie'
-        else {
+        if (item.quality > 50) {
+          item.quality = 50;
+        }
+      }
 
-          // ((if sellIn is less than 0) and it is 'aged brie') and quality is less than 50
-          if (this.items[i].quality < 50) {
+      else { //other items
+        item.quality = item.quality - 1;
+        item.sellIn = item.sellIn - 1;
 
-            // increase quality by 1
-            this.items[i].quality = this.items[i].quality + 1;
-          }
+        if (item.sellIn < 0) {
+          item.quality = item.quality - 1;
+        }
+
+        if (item.quality < 0) {
+          item.quality = 0;
         }
       }
     }
+
     return this.items;
   }
 }
