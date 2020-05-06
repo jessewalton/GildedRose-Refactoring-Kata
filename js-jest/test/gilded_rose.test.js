@@ -27,9 +27,23 @@ describe("Gilded Rose", function() {
       expect(items[0].quality).toBe(23);
     });
 
-    it("should not degrade quality below 0", function() {
-      const gildedRose = new Shop([new Item("", 0, 1)]);
+    it("should not degrade quality below 0 if before expiration date", function() {
+      const gildedRose = new Shop([
+        new Item("", 50, 1),
+        new Item("", 50, 0)
+      ]);
       let items = gildedRose.updateQuality();
+      expect(items[0].quality).toBe(0);
+      expect(items[0].quality).toBe(0);
+    });
+
+    it("should not degrade quality below 0 if after expiration date", function() {
+      const gildedRose = new Shop([
+        new Item("", 0, 2),
+        new Item("", 0, 1)
+      ]);
+      let items = gildedRose.updateQuality();
+      expect(items[0].quality).toBe(0);
       expect(items[0].quality).toBe(0);
     });
   });
@@ -115,6 +129,18 @@ describe("Gilded Rose", function() {
       const gildedRose = new Shop([new Item("Backstage passes to a TAFKAL80ETC concert", 0, 50)]);
       let items = gildedRose.updateQuality();
       expect(items[0].quality).toBe(0);
+    });
+
+    it("should never let quality be over 50", function() {
+      const tickets = [];
+      for (let i = 0; i < 50; i++) {
+        tickets.push(new Item("Backstage passes to a TAFKAL80ETC concert", i, 50));
+      }
+      const gildedRose = new Shop(tickets);
+      let items = gildedRose.updateQuality();
+      for (let i = 0; i < 50; i++) {
+        expect(items[i].quality).toBeLessThanOrEqual(50);
+      }
     });
   });
 
